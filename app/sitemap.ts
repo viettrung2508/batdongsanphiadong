@@ -3,6 +3,8 @@ import type { MetadataRoute } from "next";
 import { getPublicApartments, getPublicLandListings, getPublicPosts, getPublicProjects, getPublicRentals } from "@/lib/public-api";
 import { absoluteUrl } from "@/lib/seo";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const [projects, landListings, rentals, apartments, posts] = await Promise.all([

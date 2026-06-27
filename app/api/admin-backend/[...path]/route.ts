@@ -1,16 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { isAdminAuthenticated } from "@/lib/admin-session";
-
-function getBackendBaseUrl() {
-  const value = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL;
-
-  if (!value) {
-    throw new Error("BACKEND_URL_MISSING");
-  }
-
-  return value.replace(/\/+$/, "");
-}
+import { getBackendBaseUrl } from "@/lib/backend-url";
 
 async function proxyRequest(request: NextRequest, params: Promise<{ path: string[] }>) {
   if (!(await isAdminAuthenticated())) {
@@ -18,7 +9,7 @@ async function proxyRequest(request: NextRequest, params: Promise<{ path: string
   }
 
   const { path } = await params;
-  const targetUrl = `${getBackendBaseUrl()}/api/${path.join("/")}${request.nextUrl.search}`;
+  const targetUrl = `${await getBackendBaseUrl()}/${path.join("/")}${request.nextUrl.search}`;
 
   const headers = new Headers();
   const contentType = request.headers.get("content-type");

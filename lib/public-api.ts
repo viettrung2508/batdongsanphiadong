@@ -1,6 +1,5 @@
 import type { ApartmentListing, LandListing, Post, Project, RentalListing } from "@/types";
-
-const backendUrl = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:4000";
+import { getBackendBaseUrl } from "@/lib/backend-url";
 
 type BackendCoordinates =
   | {
@@ -328,7 +327,9 @@ function mapArea(item: BackendArea) {
 }
 
 async function fetchJson<T>(path: string) {
-  const response = await fetch(`${backendUrl}${path}`, {
+  const backendUrl = await getBackendBaseUrl();
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const response = await fetch(`${backendUrl}${normalizedPath.replace(/^\/api/, "")}`, {
     cache: "no-store"
   });
 

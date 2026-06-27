@@ -11,7 +11,9 @@ export function createApp() {
         credentials: true
     }));
     app.use(express.json());
-    app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
+    if (process.env.VERCEL !== "1") {
+        app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
+    }
     app.get("/health", (_request, response) => {
         response.json({ status: "ok" });
     });

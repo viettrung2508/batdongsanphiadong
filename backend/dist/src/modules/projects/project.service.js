@@ -55,6 +55,8 @@ function mapProject(item) {
             price: apartment.price,
             size: apartment.size,
             rentalType: apartment.rentalType,
+            thumbnail: apartment.thumbnail,
+            bannerImage: apartment.bannerImage,
             status: apartment.status,
             isFeatured: apartment.isFeatured,
             isSold: apartment.isSold
