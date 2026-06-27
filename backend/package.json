@@ -9,6 +9,8 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "tsx watch src/server.ts",
+    "dev:no-watch": "tsx src/server.ts",
+    "dev:compiled": "npm run build && node dist/server.js",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "seed": "tsx prisma/seed.ts",
