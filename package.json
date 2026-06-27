@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:full": "sh -c 'npm run dev:backend & npm run dev'",
     "build": "npm run build:backend && next build",
     "build:backend": "tsc -p backend/tsconfig.json",
     "start": "next start",

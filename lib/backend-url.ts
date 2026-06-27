@@ -11,6 +11,10 @@ export async function getBackendBaseUrl() {
     return trimTrailingSlashes(configuredUrl);
   }
 
+  if (process.env.NODE_ENV !== "production" && !process.env.VERCEL_URL) {
+    return "http://127.0.0.1:4000";
+  }
+
   try {
     const headerStore = await headers();
     const forwardedHost = headerStore.get("x-forwarded-host");
@@ -27,10 +31,6 @@ export async function getBackendBaseUrl() {
 
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}/api/backend`;
-  }
-
-  if (process.env.NODE_ENV !== "production") {
-    return "http://127.0.0.1:3000/api/backend";
   }
 
   throw new Error("BACKEND_URL_MISSING");

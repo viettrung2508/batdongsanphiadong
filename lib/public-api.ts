@@ -329,7 +329,10 @@ function mapArea(item: BackendArea) {
 async function fetchJson<T>(path: string) {
   const backendUrl = await getBackendBaseUrl();
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  const response = await fetch(`${backendUrl}${normalizedPath.replace(/^\/api/, "")}`, {
+  const backendPath = backendUrl.endsWith("/api/backend")
+    ? normalizedPath.replace(/^\/api/, "")
+    : normalizedPath;
+  const response = await fetch(`${backendUrl}${backendPath}`, {
     cache: "no-store"
   });
 

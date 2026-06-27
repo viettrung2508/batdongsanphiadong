@@ -2,6 +2,10 @@
 
 import { FormEvent, useState } from "react";
 
+const contactApiUrl =
+  process.env.NEXT_PUBLIC_BACKEND_URL ??
+  (process.env.NODE_ENV === "production" ? "/api/backend" : "http://127.0.0.1:4000");
+
 const initialForm = {
   name: "",
   phone: "",
@@ -20,7 +24,7 @@ export function ContactForm() {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/backend/contacts", {
+      const response = await fetch(`${contactApiUrl}/api/contacts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
