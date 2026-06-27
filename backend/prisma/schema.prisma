@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PropertyKind {
+  PROJECT
+  LAND
+  RENTAL
+  APARTMENT
+}
+
+model Area {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  description String?
+  properties  Property[]
+  posts       Post[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Property {
+  id               String         @id @default(cuid())
+  kind             PropertyKind
+  name             String
+  slug             String         @unique
+  address          String
+  price            String
+  hotline          String
+  badge            String?
+  cardMeta         String?
+  projectStatusTag String?
+  description      String
+  thumbnail        String
+  thumbnailPublicId String?
+  bannerImage      String?
+  bannerImagePublicId String?
+  gallery          Media[]
+  mapEmbedUrl      String?
+  seoTitle         String?
+  seoDescription   String?
+  isFeatured       Boolean        @default(false)
+  status           ContentStatus  @default(DRAFT)
+  areaId           String
+  area             Area           @relation(fields: [areaId], references: [id], onDelete: Restrict)
+  investor         String?
+  scale            String?
+  productTypes     String[]
+  villaInfo        String?
+  shophouseInfo    String?
+  startTime        String?
+  handoverTime     String?
+  ownership        String?
+  acreage          String?
+  legal            String?
+  size             String?
+  rentalType       String?
+  isSold           Boolean        @default(false)
+  latitude         Decimal?       @db.Decimal(10, 7)
+  longitude        Decimal?       @db.Decimal(10, 7)
+  parentProjectId  String?
+  parentProject    Property?      @relation("ProjectApartments", fields: [parentProjectId], references: [id], onDelete: Cascade)
+  apartments       Property[]     @relation("ProjectApartments")
+  utilities        PropertyUtility[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([kind, areaId, status])
+  @@index([parentProjectId])
+}
+
+model PropertyUtility {
+  id         String   @id @default(cuid())
+  propertyId String
+  label      String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@index([propertyId])
+}
+
+model Media {
+  id         String    @id @default(cuid())
+  url        String
+  publicId   String?
+  alt        String?
+  sortOrder  Int       @default(0)
+  propertyId String?
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+
+  @@index([propertyId, sortOrder])
+}
+
+model Post {
+  id              String         @id @default(cuid())
+  title           String
+  slug            String         @unique
+  excerpt         String
+  content         String
+  category        String
+  thumbnail       String
+  thumbnailPublicId String?
+  bannerImage     String?
+  bannerImagePublicId String?
+  seoTitle        String?
+  seoDescription  String?
+  publishedAt     DateTime?
+  status          ContentStatus  @default(DRAFT)
+  relatedPostIds  String[]
+  areaId          String?
+  area            Area?          @relation(fields: [areaId], references: [id], onDelete: SetNull)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([category, status])
+}
+
+model ContactSubmission {
+  id         String   @id @default(cuid())
+  name       String
+  phone      String
+  email      String?
+  message    String?
+  source     String?
+  createdAt  DateTime @default(now())
+}
+
+model AppSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

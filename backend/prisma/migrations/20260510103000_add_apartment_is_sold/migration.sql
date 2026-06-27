@@ -1,0 +1,2 @@
+ALTER TABLE "Property"
+ADD COLUMN "isSold" BOOLEAN NOT NULL DEFAULT false;

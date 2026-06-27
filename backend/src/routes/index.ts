@@ -1,0 +1,24 @@
+import { Router } from "express";
+
+import { requireAdminAuth } from "../middlewares/require-admin-auth.js";
+import { apartmentRouter } from "../modules/apartments/apartment.routes.js";
+import { areaRouter } from "../modules/areas/area.routes.js";
+import { authRouter } from "../modules/auth/auth.routes.js";
+import { contactRouter } from "../modules/contacts/contact.routes.js";
+import { landListingRouter } from "../modules/land-listings/land-listing.routes.js";
+import { mediaRouter } from "../modules/media/media.routes.js";
+import { postRouter } from "../modules/posts/post.routes.js";
+import { projectRouter } from "../modules/projects/project.routes.js";
+import { rentalRouter } from "../modules/rentals/rental.routes.js";
+
+export const apiRouter = Router();
+
+apiRouter.use("/auth", authRouter);
+apiRouter.use("/areas", areaRouter);
+apiRouter.use("/apartments", apartmentRouter);
+apiRouter.use("/contacts", contactRouter);
+apiRouter.use("/projects", projectRouter);
+apiRouter.use("/land-listings", landListingRouter);
+apiRouter.use("/rentals", rentalRouter);
+apiRouter.use("/posts", postRouter);
+apiRouter.use("/media", requireAdminAuth, mediaRouter);
