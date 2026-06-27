@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.contactRouter = void 0;
+const express_1 = require("express");
+const require_admin_auth_js_1 = require("../../middlewares/require-admin-auth.js");
+const contact_controller_js_1 = require("./contact.controller.js");
+exports.contactRouter = (0, express_1.Router)();
+exports.contactRouter.get("/settings", require_admin_auth_js_1.requireAdminAuth, contact_controller_js_1.getContactSettingsHandler);
+exports.contactRouter.patch("/settings", require_admin_auth_js_1.requireAdminAuth, contact_controller_js_1.updateContactSettingsHandler);
+exports.contactRouter.get("/", require_admin_auth_js_1.requireAdminAuth, contact_controller_js_1.listContacts);
+exports.contactRouter.delete("/:id", require_admin_auth_js_1.requireAdminAuth, contact_controller_js_1.deleteContactHandler);
+exports.contactRouter.post("/", contact_controller_js_1.createContactHandler);

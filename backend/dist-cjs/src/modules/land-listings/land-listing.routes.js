@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.landListingRouter = void 0;
+const express_1 = require("express");
+const require_admin_auth_js_1 = require("../../middlewares/require-admin-auth.js");
+const land_listing_controller_js_1 = require("./land-listing.controller.js");
+exports.landListingRouter = (0, express_1.Router)();
+exports.landListingRouter.get("/", land_listing_controller_js_1.listLandListings);
+exports.landListingRouter.get("/:slug", land_listing_controller_js_1.getLandListingDetail);
+exports.landListingRouter.post("/", require_admin_auth_js_1.requireAdminAuth, land_listing_controller_js_1.createLandListingHandler);
+exports.landListingRouter.patch("/:slug", require_admin_auth_js_1.requireAdminAuth, land_listing_controller_js_1.updateLandListingHandler);
+exports.landListingRouter.delete("/:slug", require_admin_auth_js_1.requireAdminAuth, land_listing_controller_js_1.deleteLandListingHandler);

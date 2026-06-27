@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.postRouter = void 0;
+const express_1 = require("express");
+const require_admin_auth_js_1 = require("../../middlewares/require-admin-auth.js");
+const post_controller_js_1 = require("./post.controller.js");
+exports.postRouter = (0, express_1.Router)();
+exports.postRouter.get("/", post_controller_js_1.listPosts);
+exports.postRouter.get("/:slug", post_controller_js_1.getPostDetail);
+exports.postRouter.post("/", require_admin_auth_js_1.requireAdminAuth, post_controller_js_1.createPostHandler);
+exports.postRouter.patch("/:slug", require_admin_auth_js_1.requireAdminAuth, post_controller_js_1.updatePostHandler);
+exports.postRouter.delete("/:slug", require_admin_auth_js_1.requireAdminAuth, post_controller_js_1.deletePostHandler);

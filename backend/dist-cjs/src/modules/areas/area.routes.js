@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.areaRouter = void 0;
+const express_1 = require("express");
+const require_admin_auth_js_1 = require("../../middlewares/require-admin-auth.js");
+const area_controller_js_1 = require("./area.controller.js");
+exports.areaRouter = (0, express_1.Router)();
+exports.areaRouter.get("/", area_controller_js_1.listAreas);
+exports.areaRouter.post("/", require_admin_auth_js_1.requireAdminAuth, area_controller_js_1.createAreaHandler);
+exports.areaRouter.patch("/:id", require_admin_auth_js_1.requireAdminAuth, area_controller_js_1.updateAreaHandler);
+exports.areaRouter.delete("/:id", require_admin_auth_js_1.requireAdminAuth, area_controller_js_1.deleteAreaHandler);

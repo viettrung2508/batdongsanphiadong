@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.rentalRouter = void 0;
+const express_1 = require("express");
+const require_admin_auth_js_1 = require("../../middlewares/require-admin-auth.js");
+const rental_controller_js_1 = require("./rental.controller.js");
+exports.rentalRouter = (0, express_1.Router)();
+exports.rentalRouter.get("/", rental_controller_js_1.listRentals);
+exports.rentalRouter.get("/:slug", rental_controller_js_1.getRentalDetail);
+exports.rentalRouter.post("/", require_admin_auth_js_1.requireAdminAuth, rental_controller_js_1.createRentalHandler);
+exports.rentalRouter.patch("/:slug", require_admin_auth_js_1.requireAdminAuth, rental_controller_js_1.updateRentalHandler);
+exports.rentalRouter.delete("/:slug", require_admin_auth_js_1.requireAdminAuth, rental_controller_js_1.deleteRentalHandler);

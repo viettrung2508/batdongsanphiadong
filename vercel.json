@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/backend/[[...path]].ts": {
-      "includeFiles": "backend/dist/**"
+      "includeFiles": "backend/dist-cjs/**"
     }
   }
 }
